@@ -25,6 +25,10 @@ public class Address
      * send (TokenContract contract, Double EZI)
      * */
 
+    public PublicKey getMyPublicK(){
+        return this.myPublicK;
+    }
+
     public String toString()
     {
         StringBuilder sb = new StringBuilder();
@@ -38,12 +42,12 @@ public class Address
         return sb.toString();
     }
 
-    private void addEzi(Double EZI){
-        this.bEnzinium = EZI;
+    private void addEzi(Double ezi){
+        this.bEnzinium = ezi;
     }
 
-    public void transferEZI(Double EZI){
-
+    public void transferEZI(Double ezi){
+        this.bEnzinium += ezi;
     }
 
     public void generateKeyPair()
@@ -54,7 +58,7 @@ public class Address
          this.myPrivateK = key.getPrivate();
     }
 
-    private void send(TokenContract contract, Double EZI)
+    private void send(TokenContract contract, Double ezi)
     {
 
     }

@@ -16,11 +16,42 @@ public class Address
 
     public Address()
     {}
+    public String getSYMBOL()
+    {
+        return SYMBOL;
+    }
+
+    public double getbEnzinium()
+    {
+        return bEnzinium;
+    }
+
+    public void setbEnzinium(double bEnzinium)
+    {
+        this.bEnzinium = bEnzinium;
+    }
+
+    public void setMyPublicK(PublicKey myPublicK)
+    {
+        this.myPublicK = myPublicK;
+    }
+
+    public PrivateKey getMyPrivateK()
+    {
+        return myPrivateK;
+    }
+
+    public void setMyPrivateK(PrivateKey myPrivateK)
+    {
+        this.myPrivateK = myPrivateK;
+    }
+
+
 
     /*
-     * generateKeyPair //fácil
+     * generateKeyPair
      * ToString
-     * addEzi(Double EZI) // este de aqui
+     * addEzi(Double EZI)
      * transferEzi(Double EZI)
      * send (TokenContract contract, Double EZI)
      * */
@@ -58,8 +89,11 @@ public class Address
          this.myPrivateK = key.getPrivate();
     }
 
-    private void send(TokenContract contract, Double ezi)
+    public void send(TokenContract contract, Double enziniums)
     {
-
+        if (getbEnzinium() >= enziniums){
+            contract.payable(getMyPublicK(), enziniums);
+            bEnzinium -= enziniums;
+        }
     }
 }

@@ -15,6 +15,11 @@ public class TokenContract
 
     private Map<PublicKey, Double> mBalances = new HashMap<>(); //devuelve como llave publickey y como valor unidades de tokens
 
+    public Map<PublicKey, Double> getmBalances()
+    {
+        return mBalances;
+    }
+
     private int totalSupply;
     private double tokenPrice;
 
@@ -186,4 +191,23 @@ public class TokenContract
         return tokenSolds;
     }
 
+    public void payable(PublicKey recipient, Double enziniums){
+        /*
+        * 1. Mirar si el dinero que llega basta para comprar alguna entrada
+        * 2. Miramos cuantas entradas puede comprar con el dinero que tiene
+        * 3. Compramos la entrada
+        * 4. Dentro del mapa meter a la persona y poner la cantidad de entradas.
+        * 5. Añadirle el dinero al propietario del token contract
+        * */
+        Double cantidadEntradasRestantes = mBalances.get(myPublicK);// 500
+
+        // 100 = enziniums  a 25 = tokenPrice  cada     una -> cantidad -> 4    transfer(recipient,4)
+
+        if (enziniums >= tokenPrice && cantidadEntradasRestantes > 0)
+        {
+            double cantidadEntradasCompra = Math.floor(enziniums/tokenPrice);
+            transfer(recipient,cantidadEntradasCompra);
+            addressOwner.transferEZI(tokenPrice * cantidadEntradasCompra);
+        }
+    }
 }

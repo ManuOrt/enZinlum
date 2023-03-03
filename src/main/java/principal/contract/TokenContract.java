@@ -3,7 +3,6 @@ package principal.contract;
 import principal.address.Address;
 import java.security.PublicKey;
 import java.util.HashMap;
-import java.util.IllegalFormatCodePointException;
 import java.util.Map;
 
 public class TokenContract
@@ -82,7 +81,7 @@ public class TokenContract
         return mBalances.size();
     }
 
-    //* balanceOf(PublicKey owner) devuelve el numero de tokens de un propietario.
+    //* balanceOf(PublicKey owner) devuelve el número de tokens de un propietario.
     public Double balanceOf(PublicKey owner){
         /*
         * 1. Mirar si existe el propietario y si no devolver 0

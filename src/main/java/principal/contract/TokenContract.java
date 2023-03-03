@@ -33,24 +33,6 @@ public class TokenContract
 
     /* GETTERS & SETTERS */
 
-    /*
-    * Listado de métodos necesarios:
-    * setName x
-    * setSymbol x
-    * setTotalSupply x
-    * setTokenPrice x
-    * getName x
-    * getSymbol x
-    * getTotalSupply x
-    * addOwner(PublicKey PK, Double units) añade un propietario a balances. x
-    * numOwners() devuelve el numero de propietarios en balances x
-    * balanceOf(PublicKey owner) devuelve el numero de tokens de un propietario. X
-    * transfer(PublicKey recipient, Double units) transfiere tokens del propietario del contrato a la dirección de destino.
-    * transfer(PublicKey sender, PublicKey recipient, Double units) transfiere tokens del sender al recipient.
-    * require(Boolean holds) throws Exception lanza una excepción cuando holds es false.
-    * owners() mueestra en consola todos los propietarios.
-    * payable(PublicKey recipient, Double EnZinIums) envia los tokens a la direccion recipient y envia los EnZinIums al propietario del contrato.
-    *   */
 
     public String getName()
     {
@@ -102,27 +84,19 @@ public class TokenContract
 
     //* balanceOf(PublicKey owner) devuelve el numero de tokens de un propietario.
     public Double balanceOf(PublicKey owner){
-        /*Pasos a seguir:
-        * 1. Mirar si el public key esta dentro del mapa
-        * 2. Si esta, recorro el mapa y devuelvo el valor
+        /*
+        * 1. Mirar si existe el propietario y si no devolver 0
+        * 2. Devolver la cantidad de tokens
         * */
-
         if (mBalances.containsKey(owner)){
-            for (Map.Entry<PublicKey,Double> checkOwner : mBalances.entrySet()){
-                if (checkOwner.getKey() == owner){
-                    return checkOwner.getValue();
-                }
-            }
-        }else {
-            System.out.println("Este propietario no tiene ningun token");
+            return returnQuantity(owner);
+        }else{
+            return 0d;
         }
-
-        return 0d;
     }
 
-
     public double returnQuantity(PublicKey recipient){
-        return mBalances.get(recipient) != null ? mBalances.get(recipient) : 0d;
+        return mBalances.get(recipient) == null ? 0d : mBalances.get(recipient);
     }
 
     //transfer(PublicKey recipient, Double units) transfiere tokens del propietario del contrato a la dirección de destino.
@@ -138,9 +112,9 @@ public class TokenContract
         cantidad = returnQuantity(myPublicK);
 
         if (cantidad >= units){
-            mBalances.put(myPublicK, cantidad-units);
+            mBalances.put(myPublicK, cantidad - units);
             cantidad = returnQuantity(recipient);
-            mBalances.put(recipient, cantidad+units);
+            mBalances.put(recipient, cantidad + units);
         }else
             System.out.println("no tienes suficientes EZIS");
     }
@@ -192,17 +166,9 @@ public class TokenContract
     }
 
     public void payable(PublicKey recipient, Double enziniums){
-        /*
-        * 1. Mirar si el dinero que llega basta para comprar alguna entrada
-        * 2. Miramos cuantas entradas puede comprar con el dinero que tiene
-        * 3. Compramos la entrada
-        * 4. Dentro del mapa meter a la persona y poner la cantidad de entradas.
-        * 5. Añadirle el dinero al propietario del token contract
-        * */
-        Double cantidadEntradasRestantes = mBalances.get(myPublicK);// 500
 
         // 100 = enziniums  a 25 = tokenPrice  cada     una -> cantidad -> 4    transfer(recipient,4)
-
+        double cantidadEntradasRestantes = mBalances.get(myPublicK);
         if (enziniums >= tokenPrice && cantidadEntradasRestantes > 0)
         {
             double cantidadEntradasCompra = Math.floor(enziniums/tokenPrice);
